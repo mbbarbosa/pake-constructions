@@ -33,6 +33,24 @@ int ic256_dec(uint8_t block[KYBER_SYMBYTES], uint8_t key[KYBER_SYMBYTES]) {
 }
 
 /*************************************************
+* Name:        polyvec_sub
+*
+* Description: Subtract vectors of polynomials
+*
+* Arguments: - polyvec *r: pointer to output vector of polynomials
+*            - const polyvec *a: pointer to first input vector of polynomials
+*            - const polyvec *b: pointer to second input vector of polynomials
+**************************************************/
+#define polyvec_sub KYBER_NAMESPACE(polyvec_sub)
+void polyvec_sub(polyvec *r, const polyvec *a, const polyvec *b);
+
+void polyvec_sub(polyvec *r, const polyvec *a, const polyvec *b)
+{
+  unsigned int i;
+  for(i=0;i<KYBER_K;i++)
+    poly_sub(&r->vec[i], &a->vec[i], &b->vec[i]);
+}
+/*************************************************
 * Name:        rej_uniform
 *
 * Description: Run rejection sampling on uniform random bytes to generate

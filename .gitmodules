@@ -1,3 +1,3 @@
 [submodule "kyber"]
 	path = c/kyber
-	url = https://github.com/pq-crystals/kyber.git
+	url = https://github.com/mbbarbosa/kyber.git

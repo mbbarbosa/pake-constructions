@@ -1,7 +1,7 @@
 # chic-pake
-Implementations of the CHIC PAKE protocol [AsiaCrypt'2024]
+Implementation of the CHIC PAKE protocol [AsiaCrypt'2024]
 
-The `c` subfolder contains C implementations based on the CRYSTALS-KYBER development.
+The `c/chic` subfolder contains C implementations based on the CRYSTALS-KYBER development.
 Make sure to `git submodule init` before trying to run `make`.
 At the moment the following C implementations are available:
 

@@ -1,4 +1,4 @@
-KYBER=../kyber/ref
+KYBER=../../kyber/ref
 
 CC ?= /usr/bin/cc
 CFLAGS += -Wall -Wextra -Wpedantic -Wmissing-prototypes -Wredundant-decls \

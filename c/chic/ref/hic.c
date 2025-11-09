@@ -4,11 +4,10 @@
 #include "params.h"
 #include "hic.h"
 #include "polyvec.h"
+#include "rej_uniform.h"
 #include "symmetric.h"
-#include "randombytes.h"
 
 #include <inttypes.h>
-#include <stdio.h>
 
 /*************************************************
  * An "ideal cipher" over 256 bits
@@ -32,110 +31,6 @@ int ic256_dec(uint8_t block[KYBER_SYMBYTES], uint8_t key[KYBER_SYMBYTES]) {
   return 0;
 }
 
-/*************************************************
-* Name:        polyvec_sub
-*
-* Description: Subtract vectors of polynomials
-*
-* Arguments: - polyvec *r: pointer to output vector of polynomials
-*            - const polyvec *a: pointer to first input vector of polynomials
-*            - const polyvec *b: pointer to second input vector of polynomials
-**************************************************/
-#define polyvec_sub KYBER_NAMESPACE(polyvec_sub)
-void polyvec_sub(polyvec *r, const polyvec *a, const polyvec *b);
-
-void polyvec_sub(polyvec *r, const polyvec *a, const polyvec *b)
-{
-  unsigned int i;
-  for(i=0;i<KYBER_K;i++)
-    poly_sub(&r->vec[i], &a->vec[i], &b->vec[i]);
-}
-/*************************************************
-* Name:        rej_uniform
-*
-* Description: Run rejection sampling on uniform random bytes to generate
-*              uniform random integers mod q
-*
-* Arguments:   - int16_t *r: pointer to output buffer
-*              - unsigned int len: requested number of 16-bit integers (uniform mod q)
-*              - const uint8_t *buf: pointer to input buffer (assumed to be uniformly random bytes)
-*              - unsigned int buflen: length of input buffer in bytes
-*
-* Returns number of sampled 16-bit integers (at most len)
-**************************************************/
-static unsigned int rej_uniform(int16_t *r,
-                                unsigned int len,
-                                const uint8_t *buf,
-                                unsigned int buflen)
-{
-  unsigned int ctr, pos;
-  uint16_t val0, val1;
-
-  ctr = pos = 0;
-  while(ctr < len && pos + 3 <= buflen) {
-    val0 = ((buf[pos+0] >> 0) | ((uint16_t)buf[pos+1] << 8)) & 0xFFF;
-    val1 = ((buf[pos+1] >> 4) | ((uint16_t)buf[pos+2] << 4)) & 0xFFF;
-    pos += 3;
-
-    if(val0 < KYBER_Q)
-      r[ctr++] = val0;
-    if(ctr < len && val1 < KYBER_Q)
-      r[ctr++] = val1;
-  }
-
-  return ctr;
-}
-
-/*************************************************
-* Name:        gen_vector
-*
-* Description: Deterministically generate vector v from a seed. 
-*              Entries of the vector are polynomials that look
-*              uniformly random. Performs rejection sampling on 
-*              output of a XOF
-*
-* Arguments:   - polyvec *a: pointer to output vector v
-*              - const uint8_t *seed: pointer to input seed
-**************************************************/
-// Fixme: can be smaller?
-#define GEN_MATRIX_NBLOCKS ((12*KYBER_N/8*(1 << 12)/KYBER_Q + XOF_BLOCKBYTES)/XOF_BLOCKBYTES)
-// Not static for benchmarking
-void gen_vector(polyvec *v, const uint8_t seed[KYBER_SYMBYTES])
-{
-  unsigned int ctr, i, k;
-  unsigned int buflen, off;
-  uint8_t buf[GEN_MATRIX_NBLOCKS*XOF_BLOCKBYTES+2];
-  xof_state state;
-
-  for(i=0;i<KYBER_K;i++) {
-    xof_absorb(&state, seed, i, 0); // take row 0
-    xof_squeezeblocks(buf, GEN_MATRIX_NBLOCKS, &state);
-    buflen = GEN_MATRIX_NBLOCKS*XOF_BLOCKBYTES;
-    ctr = rej_uniform(v->vec[i].coeffs, KYBER_N, buf, buflen);
-
-    while(ctr < KYBER_N) {
-      off = buflen % 3;
-      for(k = 0; k < off; k++)
-        buf[k] = buf[buflen - off + k];
-      xof_squeezeblocks(buf + off, 1, &state);
-      buflen = off + XOF_BLOCKBYTES;
-      ctr += rej_uniform(v->vec[i].coeffs + ctr, KYBER_N - ctr, buf, buflen);
-    }
-  }
-}
-
-/*
-static void print_polyvec(polyvec *v){
-  printf("Start polyvec");
-  for(int i=0;i < KYBER_K; i++) {
-    printf("\n");
-    for(int j=0;j < KYBER_N; j++) 
-      printf("%" PRIx16 ", ", v->vec[i].coeffs[j]);
-  }
-  printf("End polyvec\n");
-
-}
-*/
 
 /*************************************************
 * Name:        hic_eval

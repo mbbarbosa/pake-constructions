@@ -1,4 +1,4 @@
-KYBER=../../kyber/ref
+KYBER=../../../external/kyber/ref
 
 CC ?= /usr/bin/cc
 CFLAGS += -Wall -Wextra -Wpedantic -Wmissing-prototypes -Wredundant-decls \
@@ -7,7 +7,7 @@ CFLAGS += -I $(KYBER)
 NISTFLAGS += -Wno-unused-result -O3 -fomit-frame-pointer
 RM = /bin/rm
 
-SOURCES = pake.c hic.c  $(KYBER)/kem.c $(KYBER)/indcpa.c $(KYBER)/polyvec.c $(KYBER)/poly.c $(KYBER)/ntt.c $(KYBER)/cbd.c $(KYBER)/reduce.c $(KYBER)/verify.c 
+SOURCES = pake.c hic.c  $(KYBER)/kem.c $(KYBER)/indcpa.c $(KYBER)/rej_uniform.c $(KYBER)/polyvec.c $(KYBER)/poly.c $(KYBER)/ntt.c $(KYBER)/cbd.c $(KYBER)/reduce.c $(KYBER)/verify.c 
 SOURCESFULL = $(SOURCES) rijndael256/rijndael.c rijndael256/tables.c $(KYBER)/fips202.c $(KYBER)/symmetric-shake.c 
 HEADERS = pake.h hic.h $(KYBER)/params.h $(KYBER)/kem.h $(KYBER)/indcpa.h $(KYBER)/polyvec.h $(KYBER)/poly.h $(KYBER)/ntt.h $(KYBER)/cbd.h $(KYBER)/reduce.c $(KYBER)/verify.h $(KYBER)/symmetric.h
 HEADERSFULL = $(HEADERS) rijndael256/rijndael.h rijndael256/tables.h $(KYBER)/fips202.h

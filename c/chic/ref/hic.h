@@ -11,8 +11,6 @@
   randomness.
 */
 
-void gen_vector(polyvec *v, const uint8_t seed[KYBER_SYMBYTES]);
-
 void hic_eval(uint8_t icc[KYBER_PUBLICKEYBYTES],
               const uint8_t pk[KYBER_PUBLICKEYBYTES],
               const uint8_t pw[KYBER_SYMBYTES],

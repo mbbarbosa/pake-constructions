@@ -1,5 +1,5 @@
-#ifndef EKEKEM_H
-#define EKEKEM_H
+#ifndef PAKE_H
+#define PAKE_H
 
 #include <stdint.h>
 #include "params.h"

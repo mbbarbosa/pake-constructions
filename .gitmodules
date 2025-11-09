@@ -1,3 +1,3 @@
 [submodule "kyber"]
-	path = c/kyber
+	path = external/kyber
 	url = https://github.com/mbbarbosa/kyber.git

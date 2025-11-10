@@ -1,5 +1,5 @@
-#ifndef API_CHIC_PAKE_H
-#define API_CHIC_PAKE_H
+#ifndef API_NOIC_PAKE_H
+#define API_NOIC_PAKE_H
 
 #include <stdint.h>
 

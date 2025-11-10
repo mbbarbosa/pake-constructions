@@ -9,9 +9,7 @@
   Implementation of the Two-Feistel construction.
 */
 
-void gen_vector(polyvec *v, const uint8_t seed[KYBER_SYMBYTES]);
-
-void twofeistel_eval(uint8_t twofc[KYBER_PUBLICKEYBYTES],
+void twofeistel_eval(uint8_t twofc[KYBER_PUBLICKEYBYTES+KYBER_SYMBYTES],
               const uint8_t pk[KYBER_PUBLICKEYBYTES],
               const uint8_t pw[KYBER_SYMBYTES],
               const uint8_t sid[KYBER_SYMBYTES],
@@ -19,7 +17,7 @@ void twofeistel_eval(uint8_t twofc[KYBER_PUBLICKEYBYTES],
 
 
 void twofeistel_inv(uint8_t pk[KYBER_PUBLICKEYBYTES],
-             const uint8_t twofc[KYBER_PUBLICKEYBYTES],
+             const uint8_t twofc[KYBER_PUBLICKEYBYTES+KYBER_SYMBYTES],
              const uint8_t pw[KYBER_SYMBYTES],
              const uint8_t sid[KYBER_SYMBYTES]);
 

@@ -1,36 +1,38 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
-#include "../hic.h"
+#include "../twofeistel.h"
 #include "../pake.h"
 #include "kem.h"
 #include "randombytes.h"
 
 #define NTESTS 1000
 
-static int test_hic(void);
+static int test_twofeistel(void);
 static int test_pake(void);
 
 
-static int test_hic(void)
+static int test_twofeistel(void)
 {
+  uint8_t nonce[CRYPTO_BYTES];
   uint8_t sid[CRYPTO_BYTES];
   uint8_t pw[CRYPTO_BYTES];
   uint8_t sk_a[CRYPTO_SECRETKEYBYTES];
   uint8_t pk_a[CRYPTO_PUBLICKEYBYTES];
   uint8_t pk_b[CRYPTO_PUBLICKEYBYTES];
-  uint8_t icc[CRYPTO_PUBLICKEYBYTES];
+  uint8_t twofc[CRYPTO_PUBLICKEYBYTES+CRYPTO_BYTES];
 
+  randombytes(nonce,CRYPTO_BYTES);
   randombytes(pw,CRYPTO_BYTES);
   randombytes(sid,CRYPTO_BYTES);
  
   crypto_kem_keypair(pk_a, sk_a);
 
-  hic_eval(icc, pk_a, pw,sid);
-  hic_inv(pk_b, icc, pw,sid);
+  twofeistel_eval(twofc, pk_a, pw,sid, nonce);
+  twofeistel_inv(pk_b, twofc, pw,sid);
 
   if(memcmp(pk_a, pk_b, CRYPTO_PUBLICKEYBYTES)) {
-    printf("ERROR hic\n");
+    printf("ERROR twofeistel\n");
     return 1;
   }
 
@@ -45,7 +47,7 @@ static int test_pake(void)
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t key_a[CRYPTO_BYTES];
   uint8_t key_b[CRYPTO_BYTES];
-  uint8_t msg1[CRYPTO_PUBLICKEYBYTES];
+  uint8_t msg1[CRYPTO_BYTES+CRYPTO_PUBLICKEYBYTES];
   uint8_t msg2[CRYPTO_BYTES+CRYPTO_CIPHERTEXTBYTES];
 
   randombytes(pw,CRYPTO_BYTES);
@@ -67,7 +69,7 @@ int main(void)
   int r;
 
   for(i=0;i<NTESTS;i++) {
-    r  = test_hic();
+    r  = test_twofeistel();
     r  |= test_pake();
     if(r)
       return 1;

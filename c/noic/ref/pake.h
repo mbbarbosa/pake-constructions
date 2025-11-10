@@ -5,7 +5,7 @@
 #include "params.h"
 #include "polyvec.h"
 
-#define MSG1_LEN KYBER_PUBLICKEYBYTES
+#define MSG1_LEN KYBER_PUBLICKEYBYTES+KYBER_SYMBYTES
 #define MGS2_LEN KYBER_SYMBYTES+KYBER_CIPHERTEXTBYTES
 
 void initStart(uint8_t msg1[MSG1_LEN], // stupd and out

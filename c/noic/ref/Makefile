@@ -7,10 +7,10 @@ CFLAGS += -I $(KYBER)
 NISTFLAGS += -Wno-unused-result -O3 -fomit-frame-pointer
 RM = /bin/rm
 
-SOURCES = pake.c hic.c  $(KYBER)/kem.c $(KYBER)/indcpa.c $(KYBER)/rej_uniform.c $(KYBER)/polyvec.c $(KYBER)/poly.c $(KYBER)/ntt.c $(KYBER)/cbd.c $(KYBER)/reduce.c $(KYBER)/verify.c 
-SOURCESFULL = $(SOURCES) rijndael256/rijndael.c rijndael256/tables.c $(KYBER)/fips202.c $(KYBER)/symmetric-shake.c 
-HEADERS = pake.h hic.h $(KYBER)/params.h $(KYBER)/kem.h $(KYBER)/indcpa.h $(KYBER)/polyvec.h $(KYBER)/poly.h $(KYBER)/ntt.h $(KYBER)/cbd.h $(KYBER)/reduce.c $(KYBER)/verify.h $(KYBER)/symmetric.h $(KYBER)/rej_uniform.h
-HEADERSFULL = $(HEADERS) rijndael256/rijndael.h rijndael256/tables.h $(KYBER)/fips202.h
+SOURCES = pake.c twofeistel.c  $(KYBER)/kem.c $(KYBER)/indcpa.c $(KYBER)/rej_uniform.c $(KYBER)/polyvec.c $(KYBER)/poly.c $(KYBER)/ntt.c $(KYBER)/cbd.c $(KYBER)/reduce.c $(KYBER)/verify.c 
+SOURCESFULL = $(SOURCES) $(KYBER)/fips202.c $(KYBER)/symmetric-shake.c 
+HEADERS = pake.h twofeistel.h $(KYBER)/params.h $(KYBER)/kem.h $(KYBER)/indcpa.h $(KYBER)/polyvec.h $(KYBER)/poly.h $(KYBER)/ntt.h $(KYBER)/cbd.h $(KYBER)/reduce.c $(KYBER)/verify.h $(KYBER)/symmetric.h $(KYBER)/rej_uniform.h
+HEADERSFULL = $(HEADERS) $(KYBER)/fips202.h
 
 .PHONY: all speed clean
 

@@ -2,11 +2,12 @@
 #include <stdint.h>
 #include <string.h>
 #include "params.h"
-#include "hic.h"
+#include "twofeistel.h"
 #include "kem.h"
 #include "pake.h"
 #include "symmetric.h"
 #include "verify.h"
+#include "randombytes.h"
 
 #include<stdio.h>
 
@@ -34,8 +35,10 @@ void initStart(uint8_t msg1[MSG1_LEN],
                const uint8_t pw[KYBER_SYMBYTES],   
                const uint8_t sid[KYBER_SYMBYTES])  
 {
+  uint8_t nonce[KYBER_SYMBYTES];
   crypto_kem_keypair(pk,sk);
-  hic_eval(msg1,pk,pw,sid);  
+  randombytes(nonce,KYBER_SYMBYTES);
+  twofeistel_eval(msg1,pk,pw,sid, nonce);  
 }
 
 /*************************************************
@@ -83,7 +86,7 @@ int initEnd(uint8_t key[KYBER_SYMBYTES],
   result = verify(keytag+KYBER_SYMBYTES,msg2,KYBER_SYMBYTES);
 
   // If all works out
-  cmov(key,keytag,KYBER_SYMBYTES,((uint8_t)result&1)^1);
+  cmov(key,keytag,KYBER_SYMBYTES,((uint8_t)result&0x1)^0x1);
   return result;
 }
 
@@ -115,7 +118,7 @@ void resp(uint8_t key[KYBER_SYMBYTES],
   uint8_t keytag[2*KYBER_SYMBYTES];
   uint8_t hashin[2*KYBER_SYMBYTES+2*KYBER_PUBLICKEYBYTES+KYBER_CIPHERTEXTBYTES];
 
-  hic_inv(pk,msg1,pw,sid);
+  twofeistel_inv(pk,msg1,pw,sid);
   crypto_kem_enc(msg2+KYBER_SYMBYTES,hashin,pk);
 
   // Tag = H(K_s,sid,pk,apk,cph)

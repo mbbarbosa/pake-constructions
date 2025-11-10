@@ -83,7 +83,7 @@ int initEnd(uint8_t key[KYBER_SYMBYTES],
   result = verify(keytag+KYBER_SYMBYTES,msg2,KYBER_SYMBYTES);
 
   // If all works out
-  cmov(key,keytag,KYBER_SYMBYTES,((uint8_t)result&1)^1);
+  cmov(key,keytag,KYBER_SYMBYTES,((uint8_t)result&0x1)^0x1);
   return result;
 }
 

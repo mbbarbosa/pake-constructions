@@ -63,7 +63,7 @@ void initStart(uint8_t msg1[MSG1_LEN],
 * 
 **************************************************/
 int initEnd(uint8_t key[KYBER_SYMBYTES],              
-            const uint8_t msg2[MGS2_LEN],             
+            const uint8_t msg2[MSG2_LEN],             
             const uint8_t msg1[MSG1_LEN],             
             const uint8_t pk[KYBER_PUBLICKEYBYTES],   
             const uint8_t sk[KYBER_SECRETKEYBYTES],   
@@ -109,8 +109,8 @@ int initEnd(uint8_t key[KYBER_SYMBYTES],
 * 
 **************************************************/
 void resp(uint8_t key[KYBER_SYMBYTES],                
-          uint8_t msg2[MGS2_LEN],                     
-            const uint8_t msg1[KYBER_PUBLICKEYBYTES], 
+          uint8_t msg2[MSG2_LEN],                     
+            const uint8_t msg1[MSG1_LEN], 
             const uint8_t pw[KYBER_SYMBYTES],         
             const uint8_t sid[KYBER_SYMBYTES])      
 {

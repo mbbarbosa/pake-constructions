@@ -19,21 +19,41 @@ all: test speed
 test: \
   test/test_pake512 \
   test/test_pake768 \
-  test/test_pake1024
+  test/test_pake1024 \
+   test/test_pake512_tmp1 \
+   test/test_pake768_tmp1 \
+  test/test_pake1024_tmp1 \
+   test/test_pake512_tmp2 \
+   test/test_pake768_tmp2 \
+  test/test_pake1024_tmp2 \
+   test/test_pake512_tmp3b \
+   test/test_pake768_tmp3b \
+  test/test_pake1024_tmp3b
 
 speed: \
-  test/test_speed512 \
-  test/test_speed768 \
+   test/test_speed512 \
+   test/test_speed768 \
   test/test_speed1024 \
+   test/test_speed512_tmp1 \
+   test/test_speed768_tmp1 \
+  test/test_speed1024_tmp1 \
+   test/test_speed512_tmp2 \
+   test/test_speed768_tmp2 \
+  test/test_speed1024_tmp2 \
+   test/test_speed512_tmp3b \
+   test/test_speed768_tmp3b \
+  test/test_speed1024_tmp3b 
+
+# crystals kyber ref
 
 test/test_pake512: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o test_pake512
+	$(CC) $(CFLAGS) -DKYBER_K=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
 test/test_pake768: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=3 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o test_pake768
+	$(CC) $(CFLAGS) -DKYBER_K=3 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
 test/test_pake1024: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=4 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o test_pake1024
+	$(CC) $(CFLAGS) -DKYBER_K=4 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
 test/test_speed512: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
 	$(CC) $(CFLAGS) -DKYBER_K=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
@@ -44,11 +64,89 @@ test/test_speed768: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KY
 test/test_speed1024: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
 	$(CC) $(CFLAGS) -DKYBER_K=4 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
 
+#  tmp alg 1
+
+test/test_pake512_tmp1: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_ALGORITHM=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+
+test/test_pake768_tmp1: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_ALGORITHM=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+
+test/test_pake1024_tmp1: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_ALGORITHM=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+
+test/test_speed512_tmp1: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_ALGORITHM=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
+test/test_speed768_tmp1: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_ALGORITHM=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
+test/test_speed1024_tmp1: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_ALGORITHM=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
+#  tmp alg 2
+
+test/test_pake512_tmp2: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_ALGORITHM=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
+
+test/test_pake768_tmp2: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_ALGORITHM=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
+
+test/test_pake1024_tmp2: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_ALGORITHM=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
+
+test/test_speed512_tmp2: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_ALGORITHM=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
+
+test/test_speed768_tmp2: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_ALGORITHM=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
+
+test/test_speed1024_tmp2: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_ALGORITHM=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
+
+#  tmp alg 3b
+
+test/test_pake512_tmp3b: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_ALGORITHM=4 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+
+test/test_pake768_tmp3b: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_ALGORITHM=4 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+
+test/test_pake1024_tmp3b: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_ALGORITHM=4 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+
+test/test_speed512_tmp3b: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_ALGORITHM=4 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
+test/test_speed768_tmp3b: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_ALGORITHM=4 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
+test/test_speed1024_tmp3b: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_ALGORITHM=4 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
 clean:
 	-$(RM) -f *.gcno *.gcda *.lcov *.o *.so
-	-$(RM) -f test/test_pake512
-	-$(RM) -f test/test_pake768
+	 -$(RM) -f test/test_pake512
+	 -$(RM) -f test/test_pake768
 	-$(RM) -f test/test_pake1024
-	-$(RM) -f test/test_speed512
-	-$(RM) -f test/test_speed768
+	 -$(RM) -f test/test_speed512
+	 -$(RM) -f test/test_speed768
 	-$(RM) -f test/test_speed1024
+	 -$(RM) -f test/test_pake512_tmp1
+	 -$(RM) -f test/test_pake768_tmp1
+	-$(RM) -f test/test_pake1024_tmp1
+	 -$(RM) -f test/test_speed512_tmp1
+	 -$(RM) -f test/test_speed768_tmp1
+	-$(RM) -f test/test_speed1024_tmp1
+	 -$(RM) -f test/test_pake512_tmp2
+	 -$(RM) -f test/test_pake768_tmp2
+	-$(RM) -f test/test_pake1024_tmp2
+	 -$(RM) -f test/test_speed512_tmp2
+	 -$(RM) -f test/test_speed768_tmp2
+	-$(RM) -f test/test_speed1024_tmp2
+	 -$(RM) -f test/test_pake512_tmp3b
+	 -$(RM) -f test/test_pake768_tmp3b
+	-$(RM) -f test/test_pake1024_tmp3b
+	 -$(RM) -f test/test_speed512_tmp3b
+	 -$(RM) -f test/test_speed768_tmp3b
+	-$(RM) -f test/test_speed1024_tmp3b

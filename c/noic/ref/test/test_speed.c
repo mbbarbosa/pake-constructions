@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../hic.h"
+#include "../twofeistel.h"
 #include "../pake.h"
 #include "kem.h"
 #include "randombytes.h"

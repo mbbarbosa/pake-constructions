@@ -26,6 +26,8 @@ speed: \
    test/test_speed768 \
   test/test_speed1024 
 
+# crystals kyber ref
+
 test/test_pake512: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
 	$(CC) $(CFLAGS) -DKYBER_K=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
@@ -43,6 +45,7 @@ test/test_speed768: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KY
 
 test/test_speed1024: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
 	$(CC) $(CFLAGS) -DKYBER_K=4 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+
 
 
 clean:

@@ -47,8 +47,8 @@ static int test_pake(void)
   uint8_t pk[CRYPTO_PUBLICKEYBYTES];
   uint8_t key_a[CRYPTO_BYTES];
   uint8_t key_b[CRYPTO_BYTES];
-  uint8_t msg1[CRYPTO_BYTES+CRYPTO_PUBLICKEYBYTES];
-  uint8_t msg2[CRYPTO_BYTES+CRYPTO_CIPHERTEXTBYTES];
+  uint8_t msg1[MSG1_LEN];
+  uint8_t msg2[MSG2_LEN];
 
   randombytes(pw,CRYPTO_BYTES);
  

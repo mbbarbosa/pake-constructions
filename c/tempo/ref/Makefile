@@ -19,12 +19,30 @@ all: test speed
 test: \
   test/test_pake512 \
   test/test_pake768 \
-  test/test_pake1024
+  test/test_pake1024 \
+   test/test_pake512_tmp1 \
+   test/test_pake768_tmp1 \
+  test/test_pake1024_tmp1 \
+   test/test_pake512_tmp2 \
+   test/test_pake768_tmp2 \
+  test/test_pake1024_tmp2 \
+   test/test_pake512_tmp3b \
+   test/test_pake768_tmp3b \
+  test/test_pake1024_tmp3b
 
 speed: \
    test/test_speed512 \
    test/test_speed768 \
-  test/test_speed1024 
+  test/test_speed1024 \
+   test/test_speed512_tmp1 \
+   test/test_speed768_tmp1 \
+  test/test_speed1024_tmp1 \
+   test/test_speed512_tmp2 \
+   test/test_speed768_tmp2 \
+  test/test_speed1024_tmp2 \
+   test/test_speed512_tmp3b \
+   test/test_speed768_tmp3b \
+  test/test_speed1024_tmp3b 
 
 # crystals kyber ref
 
@@ -53,39 +71,39 @@ test/test_pake512_tmp1: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/
 	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=1 -DTEMPO_MATRIX_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
 test/test_pake768_tmp1: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=1 -DTEMPO_MATRIX_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
 test/test_pake1024_tmp1: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=1 -DTEMPO_MATRIX_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -o $@
 
 test/test_speed512_tmp1: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=1 -DTEMPO_MATRIX_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
 
 test/test_speed768_tmp1: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=1 -DTEMPO_MATRIX_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
 
 test/test_speed1024_tmp1: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=1 -DTEMPO_MATRIX_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=1 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -o $@
 
 #  tmp alg 2
 
 test/test_pake512_tmp2: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=2 -DTEMPO_MATRIX_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
 
 test/test_pake768_tmp2: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=2 -DTEMPO_MATRIX_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
 
 test/test_pake1024_tmp2: $(SOURCESFULL) $(HEADERSFULL) test/test_pake.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=2 -DTEMPO_MATRIX_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c test/test_pake.c -lcrypto -o $@
 
 test/test_speed512_tmp2: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=2 -DTEMPO_MATRIX_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=2 -DTEMPO_VECTOR_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
 
 test/test_speed768_tmp2: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=2 -DTEMPO_MATRIX_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=3 -DTEMPO_VECTOR_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
 
 test/test_speed1024_tmp2: $(SOURCESFULL) $(HEADERSFULL) $(KYBER)/test/cpucycles.h $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.h $(KYBER)/test/speed_print.c test/test_speed.c $(KYBER)/randombytes.c
-	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=2 -DTEMPO_MATRIX_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
+	$(CC) $(CFLAGS) -DKYBER_K=4 -DTEMPO_VECTOR_ALG=2 $(SOURCESFULL) $(KYBER)/randombytes.c $(KYBER)/test/cpucycles.c $(KYBER)/test/speed_print.c test/test_speed.c -lcrypto -o $@
 
 #  tmp alg 3b
 
